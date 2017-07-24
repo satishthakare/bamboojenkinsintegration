@@ -1,6 +1,5 @@
 package com.getgo.bamboo;
 
-import com.getgo.bamboo.BuildBambooStep;
 import hudson.model.TaskListener;
 import org.junit.Before;
 import org.junit.Test;

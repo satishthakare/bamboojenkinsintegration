@@ -45,8 +45,8 @@ public class BuildBambooStep extends Step {
      * DataBoundConstructor will set propagate to "true" by default.  Parameters given in the constructor,
      * with no setters, are required.
      *
-     * @param projectKey: Bamboo project name.  used to construct the job: "projectKey-planKey"
-     * @param planKey: Bamboo plan name
+     * @param projectKey: Bamboo project key.  used to construct the job: "projectKey-planKey"
+     * @param planKey: Bamboo plan key.  used to construct the job: "projectKey-planKey"
      * @param serverAddress: Server address, prefix with protocol.  Example: https://bamboo-server.example.org
      * @param username: Bamboo API user
      * @param password: Bamboo API password
@@ -68,7 +68,7 @@ public class BuildBambooStep extends Step {
 
     /**
      * Project name getter
-     * @return String that is the project name. Combined with plan to form the job name.
+     * @return String that is the project key. Combined with plan to form the job name.
      */
     public String getProjectKey() {
         return projectKey;
@@ -76,7 +76,7 @@ public class BuildBambooStep extends Step {
 
     /**
      * Plan name getter
-     * @return String that is the plan name.  Combined with project to form the job name.
+     * @return String that is the plan key.  Combined with project to form the job name.
      */
     public String getPlanKey() {
         return planKey;
@@ -117,7 +117,7 @@ public class BuildBambooStep extends Step {
     /**
      * Set error propagation.
      * @param propagate: true (default) to propagate errors, or false to not propagate.  By default, if there is an
-     *                 error with the Bamboo build, it will fail the pipeline.
+     *                 error with the Bamboo build, it will fail the entire pipeline.
      */
     @DataBoundSetter
     public void setPropagate(boolean propagate) {
@@ -418,7 +418,7 @@ public class BuildBambooStep extends Step {
          * Handles cleanup.  If interrupted by a timeout, or user abort, this method is called.
          * Sets {@link BuildBambooStep.Execution#stopExecution}
          * to exit the poll loop in {@link BuildBambooStep.Execution#run}
-         * @param throwable Contains the reason for the
+         * @param throwable Contains the reason for stopping.
          */
         @Override
         public void stop(@Nonnull Throwable throwable) throws Exception {

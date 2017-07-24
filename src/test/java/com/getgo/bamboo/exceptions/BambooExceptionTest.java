@@ -1,6 +1,5 @@
 package com.getgo.bamboo.exceptions;
 
-import com.getgo.bamboo.exceptions.BambooException;
 import org.junit.Test;
 
 /**

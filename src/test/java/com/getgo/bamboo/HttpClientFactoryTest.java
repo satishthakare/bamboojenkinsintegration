@@ -1,6 +1,5 @@
 package com.getgo.bamboo;
 
-import com.getgo.bamboo.HttpClientFactory;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -39,5 +38,4 @@ public class HttpClientFactoryTest {
     public void getGetMethod() throws Exception {
         assertTrue(factory.getGetMethod("http://fake-url") instanceof GetMethod);
     }
-
 }

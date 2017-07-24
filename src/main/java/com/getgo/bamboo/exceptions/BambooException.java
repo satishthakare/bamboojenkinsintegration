@@ -7,7 +7,14 @@ package com.getgo.bamboo.exceptions;
  * @author Kyle Flavin
  */
 public class BambooException extends Exception {
+    /**
+     * Default constructor
+     */
     public BambooException() { }
 
+    /**
+     * Constructor with message
+     * @param message String that is the error message.
+     */
     public BambooException(String message) { super(message); }
 }

@@ -52,17 +52,4 @@ public class BuildBambooStepTest {
         b.setPropagate(false);
         assertEquals(false, b.getPropagate());
     }
-
-//    @Test
-//    public void start() throws Exception {
-////        CpsStepContext cpsStepContext = new CpsStepContext();
-////        CpsStepContext cpsStepContext = mock(CpsStepContext.class);
-//        // getContext().get(TaskListener.class).getLogger();
-//
-//        StepContext cpsStepContext = mock(CpsStepContext.class);
-//        doNothing.when((StepExecution))
-//        StepExecution stepExecution = b.start(cpsStepContext);
-//        assertTrue(stepExecution instanceof BuildBambooStep.Execution);
-//    }
-
 }
