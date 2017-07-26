@@ -1,4 +1,4 @@
-package com.getgo.bamboo;
+package com.getgo.jenkins.plugins.bamboo;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;

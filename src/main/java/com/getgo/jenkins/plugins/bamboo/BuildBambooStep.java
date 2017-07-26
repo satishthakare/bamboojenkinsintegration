@@ -1,8 +1,8 @@
-package com.getgo.bamboo;
+package com.getgo.jenkins.plugins.bamboo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.getgo.bamboo.exceptions.BambooException;
+import com.getgo.jenkins.plugins.bamboo.exceptions.BambooException;
 import hudson.Extension;
 import hudson.model.TaskListener;
 import jenkins.model.CauseOfInterruption;
@@ -404,11 +404,24 @@ public class BuildBambooStep extends Step {
             String buildUrl = serverAddress + "/browse/" + projectKey + "-" + planKey + "-" + buildNumber;
 
             if (buildState.equals("Successful")) {
-                this.logger.println("Build number " + buildNumber + " successful: "+buildUrl);
-                this.getContext().onSuccess("Build number " + buildNumber + " successful.");
+                this.logger.println("Build number " + buildNumber + " successful.");
+                this.getContext().onSuccess("Build number " +  buildNumber + " successful.");
             } else {
-                this.logger.println("Build number " + buildNumber + " failed: "+buildUrl);
-                this.getContext().onFailure(new TimeoutException("Timed out waiting for build to complete.  " + buildUrl));
+                String message;
+                if (stopExecution) {
+                    message = "Build number " + buildNumber + " was aborted or timed out.";
+                    if (propagate) {
+                        this.logger.println(message);
+                        this.getContext().onFailure(new BambooException(message));
+                    } else {
+                        this.logger.println(message + " : proceeding with pipeline");
+                        this.getContext().onSuccess(message + " : proceeding with pipeline");
+                    }
+                } else {
+                    message = "Build failed. Build number: " + buildNumber;
+                    this.logger.println(message);
+                    this.getContext().onFailure(new BambooException(message));
+                }
             }
 
             return null;
@@ -426,10 +439,10 @@ public class BuildBambooStep extends Step {
             this.logger.println("Halting Bamboo step: please wait...");
             if (throwable instanceof FlowInterruptedException) {
                 for(CauseOfInterruption c: ((FlowInterruptedException)throwable).getCauses()) {
-                    this.logger.println("Cause was: " + c.getShortDescription());
+                    this.logger.println("Cause: " + c.getShortDescription());
                 }
             } else {
-                this.logger.println("Cause was: unknown");
+                this.logger.println("Cause: unknown");
             }
         }
     }

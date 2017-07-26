@@ -1,4 +1,4 @@
-package com.getgo.bamboo;
+package com.getgo.jenkins.plugins.bamboo;
 
 import hudson.model.TaskListener;
 import org.apache.commons.httpclient.HttpClient;

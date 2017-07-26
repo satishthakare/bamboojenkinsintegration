@@ -1,4 +1,4 @@
-package com.getgo.bamboo.exceptions;
+package com.getgo.jenkins.plugins.bamboo.exceptions;
 
 /**
  * <p>
