@@ -1,8 +1,8 @@
-package com.getgo.jenkins.plugins.bamboo;
+package com.getgo.jenkins.plugins.pipeline.bamboo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.getgo.jenkins.plugins.bamboo.exceptions.BambooException;
+import com.getgo.jenkins.plugins.pipeline.bamboo.exceptions.BambooException;
 import hudson.Extension;
 import hudson.model.TaskListener;
 import jenkins.model.CauseOfInterruption;
@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.concurrent.TimeoutException;
 
 /**
  * <p>

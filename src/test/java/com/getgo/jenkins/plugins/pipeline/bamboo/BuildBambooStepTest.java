@@ -1,4 +1,4 @@
-package com.getgo.jenkins.plugins.bamboo;
+package com.getgo.jenkins.plugins.pipeline.bamboo;
 
 import org.junit.Before;
 import org.junit.Test;
