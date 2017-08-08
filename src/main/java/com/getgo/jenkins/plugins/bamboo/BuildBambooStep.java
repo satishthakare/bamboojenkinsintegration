@@ -40,13 +40,14 @@ public class BuildBambooStep extends Step {
     private String username;
     private String password;
     private boolean propagate;
+    private int checkInterval;
 
     /**
      * DataBoundConstructor will set propagate to "true" by default.  Parameters given in the constructor,
      * with no setters, are required.
      *
      * @param projectKey: Bamboo project key.  used to construct the job: "projectKey-planKey"
-     * @param planKey: Bamboo plan key.  used to construct the job: "projectKey-planKey"
+     * @param planKey: Bamboo plan key.  used to construct the job: "planKey-planKey"
      * @param serverAddress: Server address, prefix with protocol.  Example: https://bamboo-server.example.org
      * @param username: Bamboo API user
      * @param password: Bamboo API password
@@ -64,6 +65,7 @@ public class BuildBambooStep extends Step {
         this.username = username;
         this.password = password;
         this.propagate = true;
+        this.checkInterval = 30;
     }
 
     /**
@@ -122,6 +124,23 @@ public class BuildBambooStep extends Step {
     @DataBoundSetter
     public void setPropagate(boolean propagate) {
         this.propagate = propagate;
+    }
+
+    /**
+     * The time to wait between HTTP checks, while polling the target server.
+     * @param checkInterval: set time in seconds.
+     */
+    @DataBoundSetter
+    public void setCheckInterval(int checkInterval) {
+        this.checkInterval = checkInterval;
+    }
+
+    /**
+     * checkInterval getter
+     * @return return checkInterval time in seconds
+     */
+    public int getCheckInterval() {
+        return checkInterval;
     }
 
     /**
@@ -311,12 +330,16 @@ public class BuildBambooStep extends Step {
             ObjectMapper om = new ObjectMapper();
             try {
                 JsonNode node = om.readValue(text, JsonNode.class);
-                result = node.get("buildNumber").asInt();
+
+                if (node.has("buildNumber")) {
+                    result = node.get("buildNumber").asInt();
+                } else {
+                    this.logger.println("Could not get build number.  Is the job already running?");
+                    return result;
+                }
             } catch (IOException e) {
-                this.logger.println("Could not get build number due to IOException.");
-            } catch(NullPointerException e) {
-                result = -1;
-                this.logger.println("Could not get build number.  Job already running?");
+                this.logger.println("Failed to read build number.");
+                this.logger.println(e);
             }
             return result;
         }
@@ -353,8 +376,13 @@ public class BuildBambooStep extends Step {
             final String planKey = this.step.getPlanKey();
             final String serverAddress = this.step.getServerAddress();
             final boolean propagate = this.step.getPropagate();
+            final int checkInterval = this.step.getCheckInterval();
             final String postUrl = serverAddress + "/rest/api/latest/queue/" + projectKey + "-" +
                     planKey + ".json?stage&executeAllStages&os_authType=basic";
+
+            this.logger.println("propagate=" + propagate);
+            this.logger.println("checkInterval=" + checkInterval);
+
             this.logger.println("postURL has been constructed as: " + postUrl);
 
             // Start the Bamboo job.
@@ -385,7 +413,7 @@ public class BuildBambooStep extends Step {
                     result = getBuildStatus(getText);
                     if (result == null) {
                         this.logger.println("Failed to get build status, trying again...");
-                        Thread.sleep(30000);
+                        Thread.sleep(checkInterval);
                         continue;
                     }
                     buildState = result.get("state");
@@ -394,14 +422,12 @@ public class BuildBambooStep extends Step {
                     if (lifeCycleState.equals("Finished")) {
                         break;
                     }
-                    Thread.sleep(30000);
+                    Thread.sleep(checkInterval);
                 }
             } catch (InterruptedException e) {
                 this.getContext().onFailure(e);
                 return null;
             }
-
-            String buildUrl = serverAddress + "/browse/" + projectKey + "-" + planKey + "-" + buildNumber;
 
             if (buildState.equals("Successful")) {
                 this.logger.println("Build number " + buildNumber + " successful.");
@@ -409,18 +435,23 @@ public class BuildBambooStep extends Step {
             } else {
                 String message;
                 if (stopExecution) {
-                    message = "Build number " + buildNumber + " was aborted or timed out.";
+                    message = "Bamboo build number " + buildNumber + " was aborted or timed out.";
                     if (propagate) {
                         this.logger.println(message);
                         this.getContext().onFailure(new BambooException(message));
                     } else {
                         this.logger.println(message + " : proceeding with pipeline");
-                        this.getContext().onSuccess(message + " : proceeding with pipeline");
+                        this.getContext().onSuccess(message + " : proceeding with pipeline...");
                     }
                 } else {
-                    message = "Build failed. Build number: " + buildNumber;
-                    this.logger.println(message);
-                    this.getContext().onFailure(new BambooException(message));
+                    message = "Bamboo build failed. Build number: " + buildNumber;
+                    if (propagate) {
+                        this.logger.println(message);
+                        this.getContext().onFailure(new BambooException(message));
+                    } else {
+                        this.logger.println(message + " : proceeding with pipeline");
+                        this.getContext().onSuccess(message + " : proceeding with pipeline...");
+                    }
                 }
             }
 
