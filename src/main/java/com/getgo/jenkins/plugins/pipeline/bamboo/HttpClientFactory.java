@@ -21,6 +21,7 @@ public class HttpClientFactory {
 
     /**
      * Return a PostMethod
+     * @param url POST url
      * @return PostMethod object
      */
     public PostMethod getPostMethod(String url) {
@@ -29,6 +30,7 @@ public class HttpClientFactory {
 
     /**
      * Return a GetMethod
+     * @param url GET url
      * @return GetMethod object
      */
     public GetMethod getGetMethod(String url) {

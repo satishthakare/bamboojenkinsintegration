@@ -2,14 +2,14 @@
 
 ## Features
 
-This plugin provides a step to call out to Bamboo plans.
+This plugin provides a pipeline step to trigger Bamboo plans.
 
 ## Usage
 
 The plugin provides the **buildBamboo** step.  Wrap it within a **withCredentials** to supply authentication
 information.  You can also wrap it within a **timeout** block.
 
-```
+```groovy
 timeout(time: 600, unit: 'SECONDS') { // change to a convenient timeout for you
     withCredentials([[$class          : 'UsernamePasswordMultiBinding',
                       credentialsId   : "bamboo-test-credentials",
@@ -19,6 +19,14 @@ timeout(time: 600, unit: 'SECONDS') { // change to a convenient timeout for you
     }
 }
 ```
+
+To trigger a build with parameters, pass a Map with your arguments:
+
+```groovy
+buildBamboo(projectKey: "projectKey", planKey: "planKey", serverAddress: 'http://bamboo-server', 'username': env.BAMBOO_USER, 'password': env.BAMBOO_PASS, params: ["appVersion": "1.0.0"])
+```
+
+The key names should correspond to the Bamboo variable names in the build plan.  The plugin will prepend **bamboo.variable** prior to sending the request.  For example, **"appVersion"** will be sent as **"bamboo.variable.AppVersion=1.0.0"**.  This is in accordance with the [Bamboo REST documentation](https://docs.atlassian.com/bamboo/REST/6.0.3/#d2e348).
 
 ## Notes
 

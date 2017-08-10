@@ -13,6 +13,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -113,7 +114,9 @@ public class ExecutionTest {
         BuildBambooStep.Execution execution = new BuildBambooStep.Execution(this.buildBambooStepMock,
                 this.stepContextMock, this.httpClientFactoryMock);
         execution.setLogger(mock(PrintStream.class));
-        String result = execution.post("http://fake-url", "user", "pasword", "");
+        Map<String, Object> m = new HashMap<>();
+        m.put("key1", "value1");
+        String result = execution.post("http://fake-url", "user", "password", m);
         assertEquals("return value", result);
     }
 
@@ -127,7 +130,9 @@ public class ExecutionTest {
         BuildBambooStep.Execution execution = new BuildBambooStep.Execution(this.buildBambooStepMock,
                 this.stepContextMock, this.httpClientFactoryMock);
         execution.setLogger(mock(PrintStream.class));
-        String result = execution.post("http://fake-url", "user", "pasword", "");
+        Map<String, Object> m = new HashMap<>();
+        m.put("key1", "value1");
+        String result = execution.post("http://fake-url", "user", "password", m);
         assertEquals("", result);
     }
 

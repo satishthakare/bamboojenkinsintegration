@@ -293,10 +293,12 @@ public class BuildBambooStep extends Step {
 
             PostMethod post = httpClientFactory.getPostMethod(url);
 
-            // If params have been passed, add to the POSt body
+            // If params have been passed, add to the POST body
             if (params != null) {
                 for (String key: params.keySet()) {
-                    post.addParameter(key, params.get(key).toString());
+                    // Bamboo variables need to be prefixed with "bamboo.variable."
+                    // See https://docs.atlassian.com/bamboo/REST/6.0.3/#d2e348
+                    post.addParameter("bamboo.variable." + key, params.get(key).toString());
                 }
             }
 
@@ -413,13 +415,6 @@ public class BuildBambooStep extends Step {
             this.logger.println("checkInterval=" + checkInterval);
 
             this.logger.println("postURL has been constructed as: " + postUrl);
-
-            if (params != null) {
-                System.out.println("Your params:");
-                for (String key: params.keySet()) {
-                    System.out.println(key + " = " + params.get(key) + " type is: "+ params.get(key).getClass());
-                }
-            }
 
             // Start the Bamboo job.
             String postText = post(postUrl, username, password, params);
