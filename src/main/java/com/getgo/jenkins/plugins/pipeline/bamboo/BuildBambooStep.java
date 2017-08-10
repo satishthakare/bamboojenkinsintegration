@@ -40,6 +40,7 @@ public class BuildBambooStep extends Step {
     private String password;
     private boolean propagate;
     private int checkInterval;
+    private Map<String, Object> params;
 
     /**
      * DataBoundConstructor will set propagate to "true" by default.  Parameters given in the constructor,
@@ -65,6 +66,7 @@ public class BuildBambooStep extends Step {
         this.password = password;
         this.propagate = true;
         this.checkInterval = 30;
+        this.params = null;
     }
 
     /**
@@ -132,6 +134,23 @@ public class BuildBambooStep extends Step {
     @DataBoundSetter
     public void setCheckInterval(int checkInterval) {
         this.checkInterval = checkInterval;
+    }
+
+    /**
+     * Params getter
+     * @return return Map of params
+     */
+    public Map<String, Object> getParams() {
+        return params;
+    }
+
+    /**
+     * The params passed by the user (optional)
+     * @param params: set time in seconds.
+     */
+    @DataBoundSetter
+    public void setParams(Map<String, Object> params) {
+        this.params = params;
     }
 
     /**
@@ -262,10 +281,10 @@ public class BuildBambooStep extends Step {
          * @param url Bamboo target server URL.  Example: http://bamboo-server.example.org
          * @param username Bamboo API username
          * @param password Bamboo API password
-         * @param postData Currently unused
+         * @param params Currently unused
          * @return String of the returned JSON
          */
-        public String post(String url, String username, String password, String postData) {
+        public String post(String url, String username, String password, Map<String, Object> params) {
             String result = "";
 
             HttpClient client = this.httpClientFactory.getHttpClient();
@@ -273,6 +292,14 @@ public class BuildBambooStep extends Step {
             client.getState().setCredentials(AuthScope.ANY, credentials);
 
             PostMethod post = httpClientFactory.getPostMethod(url);
+
+            // If params have been passed, add to the POSt body
+            if (params != null) {
+                for (String key: params.keySet()) {
+                    post.addParameter(key, params.get(key).toString());
+                }
+            }
+
             try {
                 int status = client.executeMethod(post);
 
@@ -338,6 +365,7 @@ public class BuildBambooStep extends Step {
                 }
             } catch (IOException e) {
                 this.logger.println("Failed to read build number.");
+                this.logger.println(text);
                 this.logger.println(e);
             }
             return result;
@@ -376,6 +404,8 @@ public class BuildBambooStep extends Step {
             final String serverAddress = this.step.getServerAddress();
             final boolean propagate = this.step.getPropagate();
             final int checkInterval = this.step.getCheckInterval();
+            final Map<String, Object> params = this.step.getParams();
+
             final String postUrl = serverAddress + "/rest/api/latest/queue/" + projectKey + "-" +
                     planKey + ".json?stage&executeAllStages&os_authType=basic";
 
@@ -384,8 +414,15 @@ public class BuildBambooStep extends Step {
 
             this.logger.println("postURL has been constructed as: " + postUrl);
 
+            if (params != null) {
+                System.out.println("Your params:");
+                for (String key: params.keySet()) {
+                    System.out.println(key + " = " + params.get(key) + " type is: "+ params.get(key).getClass());
+                }
+            }
+
             // Start the Bamboo job.
-            String postText = post(postUrl, username, password, "");
+            String postText = post(postUrl, username, password, params);
             int buildNumber = getBuildNumber(postText);
             // If the build is already running, either fail or continue the pipeline depending on "propagate" value.
             if (buildNumber == -1) {
