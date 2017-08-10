@@ -26,7 +26,7 @@ import java.util.*;
 
 /**
  * <p>
- * A Bamboo pipeline step plugin.  Start a Bamboo job from with your pipeline.
+ * A Bamboo pipeline step plugin.  Start a Bamboo job from with your Jenkinsfile.
  *
  * See {@link BuildBambooStep.Execution#run} method.
  *
