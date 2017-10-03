@@ -42,7 +42,7 @@
     -->
   </properties>
 
-  <name>bamboo</name>
+  <name>Pipeline: Bamboo Step</name>
   <description>A Bamboo step plugin for pipeline</description>
   <url>https://github.com/kflavin/bamboo-step</url>
 
