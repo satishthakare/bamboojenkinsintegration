@@ -40,6 +40,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -55,8 +56,8 @@ public class BuildBambooStep extends Step {
     private String serverAddress;
     private String username;
     private String password;
-    private boolean propagate;
-    private int checkInterval;
+    private boolean propagate;  // propagate errors to the pipeline
+    private int checkInterval;  // interval to check Bamboo server (30 seconds by default)
     private Map<String, Object> params;
 
     /**
@@ -82,7 +83,7 @@ public class BuildBambooStep extends Step {
         this.username = username;
         this.password = password;
         this.propagate = true;
-        this.checkInterval = 30;
+        this.checkInterval = (int) TimeUnit.SECONDS.toMillis(30);
         this.params = null;
     }
 
@@ -150,7 +151,7 @@ public class BuildBambooStep extends Step {
      */
     @DataBoundSetter
     public void setCheckInterval(int checkInterval) {
-        this.checkInterval = checkInterval;
+        this.checkInterval = (int) TimeUnit.SECONDS.toMillis(checkInterval);
     }
 
     /**
@@ -429,7 +430,7 @@ public class BuildBambooStep extends Step {
                     planKey + ".json?stage&executeAllStages&os_authType=basic";
 
             this.logger.println("propagate=" + propagate);
-            this.logger.println("checkInterval=" + checkInterval);
+            this.logger.println("checkInterval=" + TimeUnit.MILLISECONDS.toSeconds(checkInterval) + "s");
 
             this.logger.println("postURL has been constructed as: " + postUrl);
 

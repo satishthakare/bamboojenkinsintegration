@@ -23,10 +23,29 @@ timeout(time: 600, unit: 'SECONDS') { // change to a convenient timeout for you
 To trigger a build with parameters, pass a Map with your arguments:
 
 ```groovy
-buildBamboo(projectKey: "projectKey", planKey: "planKey", serverAddress: 'http://bamboo-server', 'username': env.BAMBOO_USER, 'password': env.BAMBOO_PASS, params: ["appVersion": "1.0.0"])
+buildBamboo(projectKey: "projectKey", 
+            planKey: "planKey",
+            serverAddress: 'http://bamboo-server', 
+            'username': env.BAMBOO_USER, 
+            'password': env.BAMBOO_PASS, 
+            propagate: False,
+            checkInterval: 120,
+            params: ["appVersion": "1.0.0", "buildNumber": env.BUILD_NUMBER])
 ```
 
-The key names should correspond to the Bamboo variable names in the build plan.  The plugin will prepend **bamboo.variable** prior to sending the request.  For example, **"appVersion"** will be sent as **"bamboo.variable.AppVersion=1.0.0"**.  This is in accordance with the [Bamboo REST documentation](https://docs.atlassian.com/bamboo/REST/6.0.3/#d2e348).
+The key names should correspond to the Bamboo variable names in the build plan.  The plugin will prepend **bamboo.variable** prior to sending the request.  For example, **"appVersion"** will be sent as **"bamboo.variable.AppVersion=1.0.0"**.  This is in accordance with the [Bamboo REST documentation](https://docs.atlassian.com/bamboo/REST/6.0.3/#d2e348).  From a shell script on the Bamboo server, you can access these variables as follows:
+
+```bash
+#!/bin/bash
+
+echo 'Printing values passed into bamboo'
+echo appVersion=$bamboo_appVersion
+echo buildNumber=$bamboo_buildNumber
+```
+
+The __checkInterval__ options sets how often to query the Bamboo server for the job status (In seconds, default: 30).
+
+__propagate__ determines if job failures cause the pipeline to halt.
 
 ## Notes
 
