@@ -20,6 +20,8 @@ timeout(time: 600, unit: 'SECONDS') { // change to a convenient timeout for you
 }
 ```
 
+See the [Jenkinsfile](./Jenkinsfile) in this repository for usage.
+
 To trigger a build with parameters, pass a Map with your arguments:
 
 ```groovy
