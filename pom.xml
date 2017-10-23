@@ -44,7 +44,7 @@
 
   <name>Pipeline: Bamboo Step</name>
   <description>A Bamboo step plugin for pipeline</description>
-  <url>https://github.com/kflavin/pipeline-bamboo-step</url>
+  <url>https://wiki.jenkins.io/display/JENKINS/Pipeline+Bamboo+Plugin</url>
 
   <!-- The default licence for Jenkins OSS Plugins is MIT. Substitute for the applicable one if needed. -->
 
@@ -55,15 +55,20 @@
     </license>
   </licenses>
 
-  <!-- If you want this to appear on the wiki page:
+  <scm>
+    <connection>scm:git:git://github.com/jenkinsci/pipeline-bamboo-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/pipeline-bamboo-plugin.git</developerConnection>
+    <url>https://github.com/jenkinsci/pipeline-bamboo-plugin</url>
+  </scm>
+
   <developers>
     <developer>
-      <id>bhacker</id>
-      <name>Bob Q. Hacker</name>
-      <email>bhacker@nowhere.net</email>
+      <id>kflavin</id>
+      <name>Kyle Flavin</name>
+      <email>Kyle.Flavin@logmein.com</email>
     </developer>
   </developers>
-  -->
+
   <build>
     <plugins>
       <plugin>
@@ -75,13 +80,6 @@
       </plugin>
     </plugins>
   </build>
-  <!-- Assuming you want to host on @jenkinsci:
-  <scm>
-    <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
-    <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
-  </scm>
-   -->
   <repositories>
     <repository>
       <id>repo.jenkins-ci.org</id>
