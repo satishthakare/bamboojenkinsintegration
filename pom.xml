@@ -44,7 +44,7 @@
 
   <name>Pipeline: Bamboo Step</name>
   <description>A Bamboo step plugin for pipeline</description>
-  <url>https://github.com/kflavin/bamboo-pipeline-step</url>
+  <url>https://github.com/kflavin/pipeline-bamboo-step</url>
 
   <!-- The default licence for Jenkins OSS Plugins is MIT. Substitute for the applicable one if needed. -->
 
