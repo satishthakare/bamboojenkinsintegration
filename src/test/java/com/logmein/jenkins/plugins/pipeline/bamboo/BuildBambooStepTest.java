@@ -15,44 +15,58 @@
  * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
-package com.getgo.jenkins.plugins.pipeline.bamboo;
+package com.logmein.jenkins.plugins.pipeline.bamboo;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 /**
- * Test the {@link HttpClientFactory} class.
+ * Test the {@link BuildBambooStep} class.
  */
-public class HttpClientFactoryTest {
-    private HttpClientFactory factory;
+public class BuildBambooStepTest {
+
+    private BuildBambooStep b;
 
     @Before
-    public void setUp() throws Exception {
-        factory = new HttpClientFactory();
-    }
-
-    @After
-    public void tearDown() throws Exception {
+    public void setup() {
+        b = new BuildBambooStep("project", "plan", "https://bamboo.example.org", "user", "password");
     }
 
     @Test
-    public void getHttpClient() throws Exception {
-        assertTrue(factory.getHttpClient() instanceof HttpClient);
+    public void getProjectName() throws Exception {
+        assertEquals("project", b.getProjectKey());
     }
 
     @Test
-    public void getPostMethod() throws Exception {
-        assertTrue(factory.getPostMethod("http://fake-url") instanceof PostMethod);
+    public void getPlanName() throws Exception {
+        assertEquals("plan", b.getPlanKey());
     }
 
     @Test
-    public void getGetMethod() throws Exception {
-        assertTrue(factory.getGetMethod("http://fake-url") instanceof GetMethod);
+    public void getServerAddress() throws Exception {
+        assertEquals("https://bamboo.example.org", b.getServerAddress());
+    }
+
+    @Test
+    public void getUsername() throws Exception {
+        assertEquals("user", b.getUsername());
+    }
+
+    @Test
+    public void getPassword() throws Exception {
+        assertEquals("password", b.getPassword());
+    }
+
+    @Test
+    public void getPropagate() throws Exception {
+        assertEquals(true, b.getPropagate());
+    }
+
+    @Test
+    public void setPropagate() throws Exception {
+        b.setPropagate(false);
+        assertEquals(false, b.getPropagate());
     }
 }

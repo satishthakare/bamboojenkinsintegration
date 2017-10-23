@@ -15,7 +15,7 @@
  * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
-package com.getgo.jenkins.plugins.pipeline.bamboo;
+package com.logmein.jenkins.plugins.pipeline.bamboo;
 
 import hudson.model.TaskListener;
 import org.junit.Before;

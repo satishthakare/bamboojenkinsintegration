@@ -15,20 +15,42 @@
  * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
-package com.getgo.jenkins.plugins.pipeline.bamboo.exceptions;
+package com.logmein.jenkins.plugins.pipeline.bamboo;
 
-import org.junit.Test;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 
 /**
- * Test the {@link BambooException} class.
+ * HttpClient factory class to make testing easier.
+ *
+ * @author Kyle Flavin
  */
-public class BambooExceptionTest {
-    @Test(expected = BambooException.class)
-    public void throwABambooExceptionWithMessage() throws Exception {
-        throw new BambooException("Throwing an exception");
+public class HttpClientFactory {
+
+    /**
+     * Return an HttpClient
+     * @return HttpClient object
+     */
+    public HttpClient getHttpClient() {
+        return new HttpClient();
     }
-    @Test(expected = BambooException.class)
-    public void throwABambooException() throws Exception {
-        throw new BambooException();
+
+    /**
+     * Return a PostMethod
+     * @param url POST url
+     * @return PostMethod object
+     */
+    public PostMethod getPostMethod(String url) {
+        return new PostMethod(url);
+    }
+
+    /**
+     * Return a GetMethod
+     * @param url GET url
+     * @return GetMethod object
+     */
+    public GetMethod getGetMethod(String url) {
+        return new GetMethod(url);
     }
 }

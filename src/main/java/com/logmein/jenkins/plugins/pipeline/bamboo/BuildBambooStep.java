@@ -15,11 +15,11 @@
  * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
-package com.getgo.jenkins.plugins.pipeline.bamboo;
+package com.logmein.jenkins.plugins.pipeline.bamboo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.getgo.jenkins.plugins.pipeline.bamboo.exceptions.BambooException;
+import com.logmein.jenkins.plugins.pipeline.bamboo.exceptions.BambooException;
 import hudson.Extension;
 import hudson.model.TaskListener;
 import jenkins.model.CauseOfInterruption;
