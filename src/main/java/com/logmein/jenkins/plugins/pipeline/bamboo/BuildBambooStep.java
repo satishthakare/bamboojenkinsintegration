@@ -313,10 +313,10 @@ public class BuildBambooStep extends Step {
 
             // If params have been passed, add to the POST body
             if (params != null) {
-                for (String key: params.keySet()) {
+                for (Map.Entry<String, Object> entry: params.entrySet()) {
                     // Bamboo variables need to be prefixed with "bamboo.variable."
                     // See https://docs.atlassian.com/bamboo/REST/6.0.3/#d2e348
-                    post.addParameter("bamboo.variable." + key, params.get(key).toString());
+                    post.addParameter("bamboo.variable." + entry.getKey(), entry.getValue().toString());
                 }
             }
 
