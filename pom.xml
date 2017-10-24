@@ -27,7 +27,7 @@
   </parent>
   <groupId>com.logmein</groupId>
   <artifactId>pipeline-bamboo</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
   <properties>
@@ -57,7 +57,7 @@
     <connection>scm:git:git@github.com:jenkinsci/pipeline-bamboo-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/pipeline-bamboo-plugin.git</developerConnection>
     <url>git@github.com:jenkinsci/pipeline-bamboo-plugin.git</url>
-    <tag>pipeline-bamboo-0.0.2</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <developers>
