@@ -323,7 +323,7 @@ public class BuildBambooStep extends Step {
             try {
                 int status = client.executeMethod(post);
 
-                this.logger.printf("POST Status Code: %d, URL: %s\n", status, url);
+                this.logger.printf("POST Status Code: %d, URL: %s%n", status, url);
                 InputStream in = post.getResponseBodyAsStream();
                 result = IOUtils.toString(in, StandardCharsets.UTF_8);
             } catch(IOException e) {
@@ -355,7 +355,7 @@ public class BuildBambooStep extends Step {
             GetMethod get = httpClientFactory.getGetMethod(url);
             try {
                 int status = client.executeMethod(get);
-                this.logger.printf("GET Status Code: %d, URL: %s\n", status, url);
+                this.logger.printf("GET Status Code: %d, URL: %s%n", status, url);
                 InputStream in = get.getResponseBodyAsStream();
                 result = IOUtils.toString(in, StandardCharsets.UTF_8);
             } catch(IOException e) {
