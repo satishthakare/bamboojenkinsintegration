@@ -54,9 +54,9 @@
   </licenses>
 
   <scm>
-    <connection>scm:git:git://github.com/jenkinsci/pipeline-bamboo-plugin.git</connection>
+    <connection>scm:git:git@github.com:jenkinsci/pipeline-bamboo-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/pipeline-bamboo-plugin.git</developerConnection>
-    <url>https://github.com/jenkinsci/pipeline-bamboo-plugin</url>
+    <url>git@github.com:jenkinsci/pipeline-bamboo-plugin.git</url>
     <tag>pipeline-bamboo-0.0.1</tag>
   </scm>
 
