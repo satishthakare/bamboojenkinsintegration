@@ -15,7 +15,7 @@ pipeline {
                                       passwordVariable: 'BAMBOO_PASS']]) {
                         buildBamboo(projectKey: "projectKey",
                                 planKey: "planKey",
-                                serverAddress: 'http://bamboo-server',
+                                serverAddress: 'http://10.20.14.183:8090',
                                 'username': env.BAMBOO_USER,
                                 'password': env.BAMBOO_PASS,
                                 propagate: False,
