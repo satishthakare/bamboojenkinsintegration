@@ -11,13 +11,13 @@ pipeline {
                 timeout(time: 600, unit: 'SECONDS') {   // Combine with a 10 minute timeout
                     withCredentials([[$class          : 'UsernamePasswordMultiBinding',
                                       credentialsId   : "bamboo-test-credentials",
-                                      usernameVariable: 'BAMBOO_USER',
-                                      passwordVariable: 'BAMBOO_PASS']]) {
+                                      usernameVariable: 'admin',
+                                      passwordVariable: 'admin']]) {
                         buildBamboo(projectKey: "projectKey",
                                 planKey: "planKey",
                                 serverAddress: 'http://10.20.14.183:8090',
-                                'username': env.BAMBOO_USER,
-                                'password': env.BAMBOO_PASS,
+                                'username': env.admin,
+                                'password': env.admin,
                                 propagate: False,
                                 checkInterval: 120,
                                 params: ["appVersion": "1.0.0", "buildNumber": env.BUILD_NUMBER])
