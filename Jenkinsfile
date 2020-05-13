@@ -10,10 +10,10 @@ pipeline {
                 // "bamboo-test-credentials" must be set at the folder or global levels.
                 timeout(time: 600, unit: 'SECONDS') {   // Combine with a 10 minute timeout
                     withCredentials([[$class          : 'UsernamePasswordMultiBinding',
-                                      credentialsId   : "bamboo-test-credentials",
+                                      credentialsId   : 'bamboo-test-credentials',
                                       usernameVariable: 'admin',
                                       passwordVariable: 'admin']]) {
-                        buildBamboo(projectKey: "projectKey",
+                        buildBamboo(projectKey: "JAV",
                                 planKey: "planKey",
                                 serverAddress: 'http://10.20.14.183:8090',
                                 'username': env.admin,
